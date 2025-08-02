@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fizrexx - Personal Portfolio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Import font Poppins dari Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <!-- Import ikon Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Import AOS.js untuk animasi saat scroll -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+    
+    <!-- Tautan ke file CSS eksternal -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-[var(--background-color)] text-[var(--text-color)] transition-colors duration-300">
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Tombol kembali ke atas -->
+    <button id="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!--
+      Navbar Utama
+      - Menggunakan sticky top untuk tetap di atas
+      - Flexbox untuk layout responsif
+    -->
+    <nav id="main-nav" class="sticky top-0 z-50 bg-[var(--background-color)] bg-opacity-80 backdrop-filter backdrop-blur-lg border-b border-[var(--card-border)] transition-all duration-300">
+        <div class="container mx-auto px-4 py-4 md:flex md:justify-between md:items-center">
+            <!-- Logo dan Tombol Hamburger -->
+            <div class="flex items-center justify-between w-full md:w-auto">
+                <a href="#" class="text-3xl font-extrabold text-[var(--primary-color)] hover:text-[var(--light-blue)] transition-colors duration-300">
+                    Fizrexx 
+                </a>
+                
+                <!-- Tombol Hamburger (Hanya terlihat di layar mobile) -->
+                <button id="hamburger-button" class="text-[var(--light-blue)] md:hidden focus:outline-none">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+            
+            <!-- Menu Navigasi & Tombol Mode Gelap/Terang -->
+            <div id="nav-menu" class="hidden md:flex md:items-center md:space-x-8 w-full md:w-auto mt-4 md:mt-0 transition-all duration-300">
+                <!-- Link-link Menu -->
+                <ul class="flex flex-col md:flex-row md:items-center md:space-x-8 text-lg font-semibold w-full md:w-auto">
+                    <li>
+                        <a href="#about-me" class="block py-2 px-4 text-[var(--light-blue)] hover:text-[var(--primary-color)] transition-colors duration-300 rounded-lg">Tentang Saya</a>
+                    </li>
+                    <li>
+                        <a href="#projects" class="block py-2 px-4 text-[var(--light-blue)] hover:text-[var(--primary-color)] transition-colors duration-300 rounded-lg">Proyek Saya</a>
+                    </li>
+                    <li>
+                        <a href="#skills" class="block py-2 px-4 text-[var(--light-blue)] hover:text-[var(--primary-color)] transition-colors duration-300 rounded-lg">Keterampilan</a>
+                    </li>
+                    <li>
+                        <a href="#testimonials" class="block py-2 px-4 text-[var(--light-blue)] hover:text-[var(--primary-color)] transition-colors duration-300 rounded-lg">Testimoni</a>
+                    </li>
+                    <li>
+                        <a href="#contact" class="block py-2 px-4 text-[var(--light-blue)] hover:text-[var(--primary-color)] transition-colors duration-300 rounded-lg">Kontak</a>
+                    </li>
+                </ul>
+                
+                <!-- Tombol Mode Gelap/Terang -->
+                <div class="mt-4 md:mt-0 md:ml-8 flex justify-center md:justify-start">
+                    <button id="theme-toggle" class="bg-[var(--card-bg)] text-[var(--light-blue)] rounded-full w-10 h-10 flex items-center justify-center transition-colors duration-300 hover:bg-[var(--light-blue)] hover:text-[var(--background-color)]">
+                        <i id="theme-icon" class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- 3D background canvas -->
+    <canvas id="three-js-bg"></canvas>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section flex flex-col justify-center items-center text-center min-h-screen p-4 relative z-10">
+            <h1 id="typing-text"></h1>
+            <p class="text-xl italic mt-4 text-[var(--secondary-text-color)]">"Code is poetry, and I'm here to write beautiful verses that solve real-world problems."</p>
+            <div class="cta-buttons mt-8 flex gap-6 flex-wrap justify-center">
+                <a href="#projects" class="btn btn-primary bg-gradient-to-r from-[var(--primary-color)] to-[var(--pastel-purple)] text-white font-semibold py-3 px-8 rounded-full transition-transform duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[var(--primary-color)]/50 btn-pulse">Explore My Work</a>
+                <a href="#" class="btn btn-secondary border-2 border-[var(--light-blue)] text-[var(--light-blue)] font-semibold py-3 px-8 rounded-full transition-transform duration-300 hover:scale-105 hover:bg-[var(--light-blue)] hover:text-[var(--background-color)] hover:shadow-lg hover:shadow-[var(--light-blue)]/50"><i class="fas fa-download mr-2"></i> Download CV</a>
+            </div>
+            <div class="social-icons mt-8 flex space-x-6">
+                <a href="https://github.com/LippWangsaff" class="text-[var(--light-blue)] text-3xl transition-colors duration-300 hover:text-[var(--primary-color)] hover:drop-shadow-[0_0_10px_var(--primary-color)] hover:scale-110"><i class="fab fa-github"></i></a>
+                <a href="https://linkedin.com/in/LippWangsaff" class="text-[var(--light-blue)] text-3xl transition-colors duration-300 hover:text-[var(--primary-color)] hover:drop-shadow-[0_0_10px_var(--primary-color)] hover:scale-110"><i class="fab fa-linkedin"></i></a>
+                <a href="mailto:email@example.com" class="text-[var(--light-blue)] text-3xl transition-colors duration-300 hover:text-[var(--primary-color)] hover:drop-shadow-[0_0_10px_var(--primary-color)] hover:scale-110"><i class="fas fa-envelope"></i></a>
+            </div>
+            <!-- Animated scroll down arrow -->
+            <a href="#about-me" class="scroll-down-arrow text-3xl text-[var(--light-blue)] hidden md:block">
+                <i class="fas fa-chevron-down"></i>
+            </a>
+        </section>
+        
+        <div class="gradient-divider"></div>
+
+        <!-- About Me Section -->
+        <section class="about-me py-20" id="about-me">
+            <div class="container mx-auto px-4" data-aos="fade-up">
+                <h2 class="section-title">Tentang Saya</h2>
+                <div class="about-content flex flex-col md:flex-row gap-8 items-center justify-center max-w-4xl mx-auto">
+                    <img src="https://placehold.co/300x300/0F172A/36CFFF?text=Avatar+Here" alt="Anime Style Avatar" class="w-60 h-auto rounded-3xl border-4 border-[var(--light-blue)] shadow-xl shadow-[var(--light-blue)]/50 transition-transform duration-300 hover:scale-105 avatar-float" data-aos="zoom-in">
+                    <div class="about-text text-left" data-aos="fade-left">
+                        <p class="text-white text-lg font-semibold">Hi there! I'm Fizrexx 👋</p>
+                        <p class="text-[var(--secondary-text-color)]">A passionate Full Stack Developer with expertise in modern web technologies, game development, and AI integration.</p>
+                        <ul class="list-none p-0 my-6 flex flex-col gap-2">
+                            <li class="font-semibold bg-[var(--card-bg)] p-3 rounded-r-lg border-l-4 border-[var(--light-blue)] transition-colors duration-300 hover:bg-[var(--light-blue)] hover:text-[var(--background-color)]">📅 Usia: 22 Tahun</li>
+                            <li class="font-semibold bg-[var(--card-bg)] p-3 rounded-r-lg border-l-4 border-[var(--light-blue)] transition-colors duration-300 hover:bg-[var(--light-blue)] hover:text-[var(--background-color)]">📍 Lokasi: Central Java, Indonesia 🇮🇩</li>
+                            <li class="font-semibold bg-[var(--card-bg)] p-3 rounded-r-lg border-l-4 border-[var(--light-blue)] transition-colors duration-300 hover:bg-[var(--light-blue)] hover:text-[var(--background-color)]">❤️ Fokus: Coding & Analysis</li>
+                            <li class="font-semibold bg-[var(--card-bg)] p-3 rounded-r-lg border-l-4 border-[var(--light-blue)] transition-colors duration-300 hover:bg-[var(--light-blue)] hover:text-[var(--background-color)]">💻 3+ Tahun Pengalaman</li>
+                        </ul>
+                        <blockquote class="my-8 pl-4 border-l-4 border-[var(--pastel-purple)] italic text-lg text-[var(--pastel-purple)]">“The best way to predict the future is to create it through code.”</blockquote>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <div class="gradient-divider"></div>
+
+        <!-- My Projects Section -->
+        <section class="projects-section py-20" id="projects">
+            <div class="container mx-auto px-4" data-aos="fade-up">
+                <h2 class="section-title">Proyek Saya</h2>
+                <div class="projects-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+                    <!-- Project Card 1 -->
+                    <div class="project-card bg-[var(--card-bg)] border-2 border-[var(--card-border)] rounded-3xl p-6 text-center relative transition-transform duration-300 hover:scale-105 hover:shadow-xl hover:shadow-[var(--light-blue)]/50 cursor-pointer" data-aos="fade-up" data-aos-delay="0" onclick="openModal('project-1')">
+                        <h3 class="text-2xl font-bold text-[var(--primary-color)] mb-2">Project One</h3>
+                        <p class="text-[var(--secondary-text-color)] flex-grow">Sebuah aplikasi web untuk manajemen tugas harian yang intuitif, dibuat dengan React dan Firebase untuk real-time data.</p>
+                        <div class="project-links mt-4 flex justify-center gap-4">
+                            <button class="btn btn-secondary border-2 border-[var(--light-blue)] text-[var(--light-blue)] font-semibold py-2 px-4 rounded-full transition-colors duration-300 hover:bg-[var(--light-blue)] hover:text-[var(--background-color)]">Lihat Detail <i class="fas fa-info-circle"></i></button>
+                            <a href="#" class="btn btn-secondary border-2 border-[var(--light-blue)] text-[var(--light-blue)] font-semibold py-2 px-4 rounded-full transition-colors duration-300 hover:bg-[var(--light-blue)] hover:text-[var(--background-color)]">Repo GitHub <i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                    <!-- Project Card 2 -->
+                    <div class="project-card bg-[var(--card-bg)] border-2 border-[var(--card-border)] rounded-3xl p-6 text-center relative transition-transform duration-300 hover:scale-105 hover:shadow-xl hover:shadow-[var(--light-blue)]/50 cursor-pointer" data-aos="fade-up" data-aos-delay="200" onclick="openModal('project-2')">
+                        <h3 class="text-2xl font-bold text-[var(--primary-color)] mb-2">Project Two</h3>
+                        <p class="text-[var(--secondary-text-color)] flex-grow">Game puzzle 2D sederhana yang dibangun menggunakan vanilla JavaScript dan HTML Canvas. Menampilkan animasi dan skor.</p>
+                        <div class="project-links mt-4 flex justify-center gap-4">
+                            <button class="btn btn-secondary border-2 border-[var(--light-blue)] text-[var(--light-blue)] font-semibold py-2 px-4 rounded-full transition-colors duration-300 hover:bg-[var(--light-blue)] hover:text-[var(--background-color)]">Lihat Detail <i class="fas fa-info-circle"></i></button>
+                            <a href="#" class="btn btn-secondary border-2 border-[var(--light-blue)] text-[var(--light-blue)] font-semibold py-2 px-4 rounded-full transition-colors duration-300 hover:bg-[var(--light-blue)] hover:text-[var(--background-color)]">Repo GitHub <i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                    <!-- Project Card 3 -->
+                    <div class="project-card bg-[var(--card-bg)] border-2 border-[var(--card-border)] rounded-3xl p-6 text-center relative transition-transform duration-300 hover:scale-105 hover:shadow-xl hover:shadow-[var(--light-blue)]/50 cursor-pointer" data-aos="fade-up" data-aos-delay="400" onclick="openModal('project-3')">
+                        <h3 class="text-2xl font-bold text-[var(--primary-color)] mb-2">Project Three</h3>
+                        <p class="text-[var(--secondary-text-color)] flex-grow">Aplikasi E-commerce dummy dengan fitur keranjang belanja dan otentikasi pengguna, menggunakan Node.js dan Express.js.</p>
+                        <div class="project-links mt-4 flex justify-center gap-4">
+                            <button class="btn btn-secondary border-2 border-[var(--light-blue)] text-[var(--light-blue)] font-semibold py-2 px-4 rounded-full transition-colors duration-300 hover:bg-[var(--light-blue)] hover:text-[var(--background-color)]">Lihat Detail <i class="fas fa-info-circle"></i></button>
+                            <a href="#" class="btn btn-secondary border-2 border-[var(--light-blue)] text-[var(--light-blue)] font-semibold py-2 px-4 rounded-full transition-colors duration-300 hover:bg-[var(--light-blue)] hover:text-[var(--background-color)]">Repo GitHub <i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                    <!-- New Project Card 4 -->
+                    <div class="project-card bg-[var(--card-bg)] border-2 border-[var(--card-border)] rounded-3xl p-6 text-center relative transition-transform duration-300 hover:scale-105 hover:shadow-xl hover:shadow-[var(--light-blue)]/50 cursor-pointer" data-aos="fade-up" data-aos-delay="600" onclick="openModal('project-4')">
+                        <h3 class="text-2xl font-bold text-[var(--primary-color)] mb-2">AI-Powered Chatbot</h3>
+                        <p class="text-[var(--secondary-text-color)] flex-grow">Chatbot pintar yang dikembangkan dengan Python dan Flask, mampu menjawab pertanyaan dan berinteraksi secara alami dengan pengguna.</p>
+                        <div class="project-links mt-4 flex justify-center gap-4">
+                            <button class="btn btn-secondary border-2 border-[var(--light-blue)] text-[var(--light-blue)] font-semibold py-2 px-4 rounded-full transition-colors duration-300 hover:bg-[var(--light-blue)] hover:text-[var(--background-color)]">Lihat Detail <i class="fas fa-info-circle"></i></button>
+                            <a href="#" class="btn btn-secondary border-2 border-[var(--light-blue)] text-[var(--light-blue)] font-semibold py-2 px-4 rounded-full transition-colors duration-300 hover:bg-[var(--light-blue)] hover:text-[var(--background-color)]">Repo GitHub <i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                    <!-- New Project Card 5 -->
+                    <div class="project-card bg-[var(--card-bg)] border-2 border-[var(--card-border)] rounded-3xl p-6 text-center relative transition-transform duration-300 hover:scale-105 hover:shadow-xl hover:shadow-[var(--light-blue)]/50 cursor-pointer" data-aos="fade-up" data-aos-delay="800" onclick="openModal('project-5')">
+                        <h3 class="text-2xl font-bold text-[var(--primary-color)] mb-2">Real-time Multiplayer Game</h3>
+                        <p class="text-[var(--secondary-text-color)] flex-grow">Permainan multiplayer sederhana berbasis web, menggunakan Socket.IO untuk komunikasi real-time dan pengalaman bermain yang mulus.</p>
+                        <div class="project-links mt-4 flex justify-center gap-4">
+                            <button class="btn btn-secondary border-2 border-[var(--light-blue)] text-[var(--light-blue)] font-semibold py-2 px-4 rounded-full transition-colors duration-300 hover:bg-[var(--light-blue)] hover:text-[var(--background-color)]">Lihat Detail <i class="fas fa-info-circle"></i></button>
+                            <a href="#" class="btn btn-secondary border-2 border-[var(--light-blue)] text-[var(--light-blue)] font-semibold py-2 px-4 rounded-full transition-colors duration-300 hover:bg-[var(--light-blue)] hover:text-[var(--background-color)]">Repo GitHub <i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="gradient-divider"></div>
+        
+        <!-- Skills Section -->
+        <section class="skills-section py-20" id="skills">
+            <div class="container mx-auto px-4" data-aos="fade-up">
+                <h2 class="section-title">Keterampilan & Teknologi</h2>
+                <div class="skills-grid grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 mt-8 justify-items-center">
+                    <!-- Skill Card 1 -->
+                    <div class="skill-card bg-[var(--card-bg)] border-2 border-[var(--card-border)] rounded-xl p-4 text-center w-full transition-transform duration-300 hover:scale-110 hover:shadow-xl hover:shadow-[var(--light-blue)]/50" data-aos="zoom-in" data-aos-delay="100">
+                        <i class="fab fa-html5 text-4xl text-[var(--light-blue)]"></i>
+                        <p class="mt-2 text-sm font-semibold">HTML5</p>
+                    </div>
+                    <!-- Skill Card 2 -->
+                    <div class="skill-card bg-[var(--card-bg)] border-2 border-[var(--card-border)] rounded-xl p-4 text-center w-full transition-transform duration-300 hover:scale-110 hover:shadow-xl hover:shadow-[var(--light-blue)]/50" data-aos="zoom-in" data-aos-delay="200">
+                        <i class="fab fa-css3-alt text-4xl text-[var(--light-blue)]"></i>
+                        <p class="mt-2 text-sm font-semibold">CSS3</p>
+                    </div>
+                    <!-- Skill Card 3 -->
+                    <div class="skill-card bg-[var(--card-bg)] border-2 border-[var(--card-border)] rounded-xl p-4 text-center w-full transition-transform duration-300 hover:scale-110 hover:shadow-xl hover:shadow-[var(--light-blue)]/50" data-aos="zoom-in" data-aos-delay="300">
+                        <i class="fab fa-js-square text-4xl text-[var(--light-blue)]"></i>
+                        <p class="mt-2 text-sm font-semibold">JavaScript</p>
+                    </div>
+                    <!-- Skill Card 4 -->
+                    <div class="skill-card bg-[var(--card-bg)] border-2 border-[var(--card-border)] rounded-xl p-4 text-center w-full transition-transform duration-300 hover:scale-110 hover:shadow-xl hover:shadow-[var(--light-blue)]/50" data-aos="zoom-in" data-aos-delay="400">
+                        <i class="fab fa-react text-4xl text-[var(--light-blue)]"></i>
+                        <p class="mt-2 text-sm font-semibold">React.js</p>
+                    </div>
+                    <!-- Skill Card 5 -->
+                    <div class="skill-card bg-[var(--card-bg)] border-2 border-[var(--card-border)] rounded-xl p-4 text-center w-full transition-transform duration-300 hover:scale-110 hover:shadow-xl hover:shadow-[var(--light-blue)]/50" data-aos="zoom-in" data-aos-delay="500">
+                        <i class="fab fa-node-js text-4xl text-[var(--light-blue)]"></i>
+                        <p class="mt-2 text-sm font-semibold">Node.js</p>
+                    </div>
+                    <!-- Skill Card 6 -->
+                    <div class="skill-card bg-[var(--card-bg)] border-2 border-[var(--card-border)] rounded-xl p-4 text-center w-full transition-transform duration-300 hover:scale-110 hover:shadow-xl hover:shadow-[var(--light-blue)]/50" data-aos="zoom-in" data-aos-delay="600">
+                        <i class="fab fa-python text-4xl text-[var(--light-blue)]"></i>
+                        <p class="mt-2 text-sm font-semibold">Python</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <div class="gradient-divider"></div>
+
+        <!-- Testimonials Section (New) -->
+        <section class="testimonials-section py-20" id="testimonials">
+            <div class="container mx-auto px-4" data-aos="fade-up">
+                <h2 class="section-title">Testimoni</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+                    <!-- Testimonial Card 1 -->
+                    <div class="testimonial-card bg-[var(--card-bg)] p-8 rounded-3xl border-2 border-[var(--card-border)] transition-transform duration-300 hover:scale-105 hover:shadow-xl hover:shadow-[var(--light-blue)]/50" data-aos="fade-right">
+                        <p class="italic text-[var(--secondary-text-color)] mb-4">"LippWangsaff adalah seorang pengembang yang sangat terampil dan profesional. Proyek yang dikerjakannya selalu melebihi ekspektasi."</p>
+                        <div class="flex items-center gap-4">
+                            <img src="https://placehold.co/60x60/334155/E2E8F0?text=A" alt="Avatar Klien 1" class="rounded-full border-2 border-[var(--primary-color)]">
+                            <div>
+                                <p class="font-bold text-[var(--primary-color)]">Client A</p>
+                                <p class="text-sm text-[var(--secondary-text-color)]">CEO, Perusahaan XYZ</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Testimonial Card 2 -->
+                    <div class="testimonial-card bg-[var(--card-bg)] p-8 rounded-3xl border-2 border-[var(--card-border)] transition-transform duration-300 hover:scale-105 hover:shadow-xl hover:shadow-[var(--light-blue)]/50" data-aos="fade-left">
+                        <p class="italic text-[var(--secondary-text-color)] mb-4">"Kerja sama dengan LippWangsaff adalah pengalaman yang luar biasa. Ia sangat komunikatif dan memberikan solusi yang efektif."</p>
+                        <div class="flex items-center gap-4">
+                            <img src="https://placehold.co/60x60/334155/E2E8F0?text=B" alt="Avatar Klien 2" class="rounded-full border-2 border-[var(--primary-color)]">
+                            <div>
+                                <p class="font-bold text-[var(--primary-color)]">Client B</p>
+                                <p class="text-sm text-[var(--secondary-text-color)]">Project Manager, Agency</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="gradient-divider"></div>
+
+        <!-- Contact Section -->
+        <section class="contact-section py-20" id="contact">
+            <div class="container mx-auto px-4" data-aos="fade-up">
+                <h2 class="section-title">Hubungi Saya</h2>
+                <div class="contact-content max-w-2xl mx-auto flex flex-col gap-6">
+                    <p class="text-center text-[var(--secondary-text-color)]">Silakan tinggalkan pesan, dan saya akan segera menghubungi Anda. Anda juga bisa menemukan saya di platform berikut:</p>
+                    <div class="social-icons flex justify-center space-x-6">
+                        <a href="https://github.com/LippWangsaff" class="text-[var(--light-blue)] text-3xl transition-all duration-300 hover:text-[var(--primary-color)] hover:drop-shadow-[0_0_10px_var(--primary-color)] hover:scale-110"><i class="fab fa-github"></i></a>
+                        <a href="https://linkedin.com/in/LippWangsaff" class="text-[var(--light-blue)] text-3xl transition-all duration-300 hover:text-[var(--primary-color)] hover:drop-shadow-[0_0_10px_var(--primary-color)] hover:scale-110"><i class="fab fa-linkedin"></i></a>
+                        <a href="mailto:email@example.com" class="text-[var(--light-blue)] text-3xl transition-all duration-300 hover:text-[var(--primary-color)] hover:drop-shadow-[0_0_10px_var(--primary-color)] hover:scale-110"><i class="fas fa-envelope"></i></a>
+                    </div>
+                    <form class="contact-form flex flex-col gap-4">
+                        <input type="text" placeholder="Nama Anda" required class="p-4 rounded-xl border-2 border-[var(--card-border)] bg-transparent text-[var(--text-color)] focus:border-[var(--primary-color)] focus:ring-2 focus:ring-[var(--primary-color)]/50 outline-none">
+                        <input type="email" placeholder="Email Anda" required class="p-4 rounded-xl border-2 border-[var(--card-border)] bg-transparent text-[var(--text-color)] focus:border-[var(--primary-color)] focus:ring-2 focus:ring-[var(--primary-color)]/50 outline-none">
+                        <textarea rows="5" placeholder="Pesan Anda" required class="p-4 rounded-xl border-2 border-[var(--card-border)] bg-transparent text-[var(--text-color)] focus:border-[var(--primary-color)] focus:ring-2 focus:ring-[var(--primary-color)]/50 outline-none"></textarea>
+                        <button type="submit" class="btn bg-gradient-to-r from-[var(--primary-color)] to-[var(--pastel-purple)] text-white font-semibold py-4 rounded-xl transition-transform duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[var(--primary-color)]/50">Kirim Pesan</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal untuk Detail Proyek -->
+    <div id="projectModal" class="modal">
+        <div class="modal-content text-left">
+            <span class="close-modal-btn">&times;</span>
+            <img id="modal-image" src="" alt="Project Image" class="w-full h-auto rounded-xl mb-4 border border-[var(--card-border)]">
+            <h3 id="modal-title" class="text-3xl font-bold text-[var(--primary-color)] mb-4"></h3>
+            <p id="modal-description" class="text-[var(--secondary-text-color)] mb-4"></p>
+            <div class="flex flex-wrap gap-2 mt-4" id="modal-tech-list">
+                <!-- Teknologi akan diisi secara dinamis di sini -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-8 text-center text-[var(--secondary-text-color)] border-t border-[var(--card-border)] mt-20 transition-colors duration-300">
+        <p>Build by Fizrexx dan di bantu oleh Lefthon dan Atha dibiayai oleh DanaS</p>
+    </footer>
+
+    <!-- Skrip untuk Three.js, AOS.js, dan animasi lainnya -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Tautan ke file JavaScript eksternal -->
+    <script src="script.js"></script>
+</body>
+</html>
+
